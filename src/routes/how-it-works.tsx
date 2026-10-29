@@ -19,6 +19,8 @@ export const Route = createFileRoute("/how-it-works")({
 function How() {
   const items = [
     { icon: Gamepad2, title: "10 gamemodes", body: `Every player has their own ELO in each gamemode: ${MODES.map((m) => m.label).join(", ")}. New players start at 1000 ELO.` },
+    { icon: BarChart3, title: "Kill ELO & daily cap", body: "An eligible kill awards +10 ELO in that gamemode. Each victim's first 20 deaths per UTC day count toward ELO awards across all supported servers and gamemodes; later kills award no ELO." },
+    { icon: Scale, title: "Consecutive deaths", body: "Every 10 consecutive deaths applies a 10 ELO penalty in the gamemode of that death. Any kill resets the killer's streak." },
     { icon: BarChart3, title: "Overall ranking", body: "Your overall ELO is the average of all 10 gamemodes. The leaderboard is sorted by that average, and the top 3 stand on the podium on the main menu." },
     { icon: Crown, title: "Tiers", body: "Your tier comes from your average ELO.", tiers: true },
     { icon: Scale, title: "Ties", body: "If players are within 25 ELO of each other in a gamemode, they share the same spot. Shared spots show an = sign, like #1=." },
