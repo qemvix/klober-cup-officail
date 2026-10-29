@@ -1,0 +1,18 @@
+# Generated with the Wasmer Anybuild Node/TanStack Start + Nitro configuration.
+load("//anybuild/tools:node.bzl", "node_build", "node_config", "node_serve")
+
+config = node_config(
+    schema = 1,
+    commands = {
+        "start": "node .output/server/index.mjs",
+    },
+    node_package_manager = "bun",
+    node_framework = "tanstack-start",
+    node_server = "nitro",
+    node_version = "24",
+    bun_version = "1",
+)
+
+build = node_build(config)
+
+node_serve(config, build, name = "klober-tiers")

@@ -146,6 +146,17 @@ export type Database = {
         }
         Returns: boolean
       }
+      record_elo_kill: {
+        Args: {
+          p_event_id: string
+          p_server_id: string
+          p_gamemode: string
+          p_killer_name: string
+          p_victim_name: string
+          p_occurred_at: string
+        }
+        Returns: Json
+      }
     }
     Enums: {
       app_role: "admin" | "moderator" | "user"
