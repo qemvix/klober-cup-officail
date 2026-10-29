@@ -34,6 +34,7 @@
   --color-silver: var(--silver);
   --color-bronze: var(--bronze);
   --color-emerald: var(--emerald);
+  --color-diamond: var(--diamond);
   --color-discord: var(--discord);
   --color-discord-foreground: var(--discord-foreground);
   --color-discord-panel: var(--discord-panel);
@@ -67,15 +68,16 @@
   --silver: oklch(0.8 0.01 250);
   --bronze: oklch(0.65 0.12 50);
   --emerald: oklch(0.72 0.17 155);
-  --discord: oklch(0.58 0.2 275);
-  --discord-foreground: oklch(0.98 0 0);
-  --discord-panel: oklch(0.27 0.01 270);
-  --discord-input: oklch(0.21 0.01 270);
+  --diamond: oklch(0.8 0.1 210);
+  --discord: oklch(0.8 0.14 82);
+  --discord-foreground: oklch(0.95 0.01 85);
+  --discord-panel: oklch(0.18 0.012 70);
+  --discord-input: oklch(0.12 0.008 70);
   --fn: oklch(0.88 0.18 95);
   --fn-foreground: oklch(0.18 0.03 270);
   --gradient-gold: linear-gradient(180deg, oklch(0.93 0.12 90), oklch(0.78 0.15 80) 50%, oklch(0.6 0.13 65));
   --gradient-page: radial-gradient(ellipse at top, oklch(0.22 0.04 75), var(--background) 60%);
-  --gradient-fn: linear-gradient(135deg, oklch(0.45 0.2 280), oklch(0.35 0.18 260) 60%, oklch(0.25 0.12 250));
+  --gradient-fn: linear-gradient(135deg, oklch(0.3 0.06 80), oklch(0.16 0.015 70) 55%, oklch(0.1 0.005 70));
   --shadow-gold: 0 0 40px -8px color-mix(in oklab, var(--gold) 55%, transparent);
 }
 

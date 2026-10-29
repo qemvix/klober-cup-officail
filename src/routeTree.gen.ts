@@ -11,7 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
+import { Route as CupsRouteImport } from './routes/cups'
+import { Route as EloRouteImport } from './routes/elo'
+import { Route as EventsRouteImport } from './routes/events'
+import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as RankingsRouteImport } from './routes/rankings'
+import { Route as TiesRouteImport } from './routes/ties'
+import { Route as ModeSlugRouteImport } from './routes/mode.$slug'
+import { Route as PlayersNameRouteImport } from './routes/players.$name'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -23,40 +30,134 @@ const AdminRoute = AdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CupsRoute = CupsRouteImport.update({
+  id: '/cups',
+  path: '/cups',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EloRoute = EloRouteImport.update({
+  id: '/elo',
+  path: '/elo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsRoute = EventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HowItWorksRoute = HowItWorksRouteImport.update({
+  id: '/how-it-works',
+  path: '/how-it-works',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RankingsRoute = RankingsRouteImport.update({
   id: '/rankings',
   path: '/rankings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TiesRoute = TiesRouteImport.update({
+  id: '/ties',
+  path: '/ties',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ModeSlugRoute = ModeSlugRouteImport.update({
+  id: '/mode/$slug',
+  path: '/mode/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlayersNameRoute = PlayersNameRouteImport.update({
+  id: '/players/$name',
+  path: '/players/$name',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/cups': typeof CupsRoute
+  '/elo': typeof EloRoute
+  '/events': typeof EventsRoute
+  '/how-it-works': typeof HowItWorksRoute
   '/rankings': typeof RankingsRoute
+  '/ties': typeof TiesRoute
+  '/mode/$slug': typeof ModeSlugRoute
+  '/players/$name': typeof PlayersNameRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/cups': typeof CupsRoute
+  '/elo': typeof EloRoute
+  '/events': typeof EventsRoute
+  '/how-it-works': typeof HowItWorksRoute
   '/rankings': typeof RankingsRoute
+  '/ties': typeof TiesRoute
+  '/mode/$slug': typeof ModeSlugRoute
+  '/players/$name': typeof PlayersNameRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
+  '/cups': typeof CupsRoute
+  '/elo': typeof EloRoute
+  '/events': typeof EventsRoute
+  '/how-it-works': typeof HowItWorksRoute
   '/rankings': typeof RankingsRoute
+  '/ties': typeof TiesRoute
+  '/mode/$slug': typeof ModeSlugRoute
+  '/players/$name': typeof PlayersNameRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/rankings'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/cups'
+    | '/elo'
+    | '/events'
+    | '/how-it-works'
+    | '/rankings'
+    | '/ties'
+    | '/mode/$slug'
+    | '/players/$name'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/rankings'
-  id: '__root__' | '/' | '/admin' | '/rankings'
+  to:
+    | '/'
+    | '/admin'
+    | '/cups'
+    | '/elo'
+    | '/events'
+    | '/how-it-works'
+    | '/rankings'
+    | '/ties'
+    | '/mode/$slug'
+    | '/players/$name'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/cups'
+    | '/elo'
+    | '/events'
+    | '/how-it-works'
+    | '/rankings'
+    | '/ties'
+    | '/mode/$slug'
+    | '/players/$name'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
+  CupsRoute: typeof CupsRoute
+  EloRoute: typeof EloRoute
+  EventsRoute: typeof EventsRoute
+  HowItWorksRoute: typeof HowItWorksRoute
   RankingsRoute: typeof RankingsRoute
+  TiesRoute: typeof TiesRoute
+  ModeSlugRoute: typeof ModeSlugRoute
+  PlayersNameRoute: typeof PlayersNameRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -75,11 +176,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cups': {
+      id: '/cups'
+      path: '/cups'
+      fullPath: '/cups'
+      preLoaderRoute: typeof CupsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/elo': {
+      id: '/elo'
+      path: '/elo'
+      fullPath: '/elo'
+      preLoaderRoute: typeof EloRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events': {
+      id: '/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof EventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/how-it-works': {
+      id: '/how-it-works'
+      path: '/how-it-works'
+      fullPath: '/how-it-works'
+      preLoaderRoute: typeof HowItWorksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/rankings': {
       id: '/rankings'
       path: '/rankings'
       fullPath: '/rankings'
       preLoaderRoute: typeof RankingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ties': {
+      id: '/ties'
+      path: '/ties'
+      fullPath: '/ties'
+      preLoaderRoute: typeof TiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mode/$slug': {
+      id: '/mode/$slug'
+      path: '/mode/$slug'
+      fullPath: '/mode/$slug'
+      preLoaderRoute: typeof ModeSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/players/$name': {
+      id: '/players/$name'
+      path: '/players/$name'
+      fullPath: '/players/$name'
+      preLoaderRoute: typeof PlayersNameRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -88,7 +238,14 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
+  CupsRoute: CupsRoute,
+  EloRoute: EloRoute,
+  EventsRoute: EventsRoute,
+  HowItWorksRoute: HowItWorksRoute,
   RankingsRoute: RankingsRoute,
+  TiesRoute: TiesRoute,
+  ModeSlugRoute: ModeSlugRoute,
+  PlayersNameRoute: PlayersNameRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

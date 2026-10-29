@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1793272756632,
+      "tag": "0000_klober_core",
+      "breakpoints": true
+    }
+  ]
+}
