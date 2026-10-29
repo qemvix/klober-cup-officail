@@ -37,6 +37,7 @@ function Home() {
         <section className="mt-14 flex items-end justify-center gap-3 md:gap-6">
           {podium.map((p) => {
             const pl = PLAYERS[p.idx];
+            if (!pl) return null;
             return (
               <Link key={pl.name} to="/rankings" className="flex w-28 flex-col items-center md:w-44">
                 <div className="animate-pop mb-3 flex flex-col items-center" style={{ animationDelay: `calc(${p.delay} + .7s)` }}>
