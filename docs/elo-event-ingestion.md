@@ -1,11 +1,31 @@
 # ELO event ingestion
 
-The ELO board stores separate ratings per gamemode. This endpoint accepts kill events from your game-server mod/plugin and applies the rating rules on the website backend.
+The ELO board stores separate ratings per gamemode. This endpoint accepts kill events from the game-server mod/plugin and applies the rating rules through the existing database function.
 
-## Setup
-1. Apply `drizzle/migrations/0001_elo_abuse_protection.sql` to the connected Supabase/Postgres database. Building the website does not apply SQL migrations automatically.
-2. Configure `ELO_INGEST_TOKEN` as a server-only runtime secret in the website deployment and on each supported game server. Do not use a `VITE_*` variable for this secret.
-3. Deploy the endpoint and point all supported game servers at the same website endpoint so the daily cap is shared.
+## Lovable Cloud setup (no Lovable AI credits required)
+
+1. Apply `drizzle/migrations/0002_lovable_cloud_rpc_bridge.sql` in the Lovable Cloud SQL editor. This creates a private config table and a token-protected RPC wrapper; it does not change player data.
+2. Generate a random token of at least 32 characters. Store the exact same value in `private.elo_ingest_config.token`, Wasmer's runtime `ELO_INGEST_TOKEN`, and the game-server/mod configuration. Never commit it to GitHub or send it in chat.
+3. In Wasmer, set runtime variables:
+   - `ELO_INGEST_TOKEN`: the random token above.
+   - `SUPABASE_URL`: the same backend URL used by the existing website's `VITE_SUPABASE_URL`.
+   - `SUPABASE_PUBLISHABLE_KEY`: the same public key used by the existing website's `VITE_SUPABASE_PUBLISHABLE_KEY`.
+   These last two are public client configuration, not service-role secrets. Do not set or invent a service-role key for Lovable Cloud; it is not exposed for managed projects.
+4. Redeploy the Wasmer app after configuring variables.
+5. Configure the game server/mod to send events to the Wasmer site's `POST /api/elo-event` endpoint with `Authorization: Bearer <ELO_INGEST_TOKEN>`.
+
+### Configure the database token
+
+After generating a strong token locally, run this query in Lovable Cloud's SQL editor, replacing the placeholder with that token (keep the single quotes):
+
+```sql
+insert into private.elo_ingest_config (id, token)
+values (true, 'PASTE_THE_SAME_RANDOM_TOKEN_HERE')
+on conflict (id) do update
+set token = excluded.token, updated_at = now();
+```
+
+Do not paste the token into ChatGPT or commit it to the repository. Use a token at least 32 characters long.
 
 ## POST /api/elo-event
 
@@ -22,15 +42,17 @@ Headers: `Authorization: Bearer <ELO_INGEST_TOKEN>`, `Content-Type: application/
 }
 ```
 
-Generate a unique UUID for each kill and reuse the same UUID when retrying that event. The killer must already exist in `public.players` so the system knows which gamemode rating to update. The victim may be absent from the roster. Gamemode must be one of the site's 10 slugs.
+Generate a unique UUID for each kill and reuse the same UUID when retrying that event. The killer must already exist in `public.players`; the victim may be absent from the roster. Gamemode must be one of the site's supported slugs.
 
 ## Rules
 
-- Killing a player with a row in `public.players` (the Klober Tiers roster) awards **+10 ELO** to the killer in that gamemode.
+- Killing a player with a row in `public.players` awards **+10 ELO** to the killer in that gamemode.
 - Killing a player without a row in `public.players` awards **+1 ELO** to the killer in that gamemode.
-- The first **20 deaths per victim per UTC calendar day** may award ELO. The 21st and later deaths still increment the victim's consecutive-death streak but award the killer 0 ELO. The count is global across server IDs and gamemodes.
-- Every 10th consecutive death subtracts **10 ELO from a listed victim** in the gamemode of that death. Unlisted victims' streaks are still tracked, but no ELO penalty is applied when they have no roster entry.
+- The first **20 deaths per victim per UTC calendar day** may award ELO. The 21st and later deaths award 0 ELO. The count is global across server IDs and gamemodes.
+- Every 10th consecutive death subtracts **10 ELO from a listed victim** in the gamemode of that death. Unlisted victims' streaks are tracked but have no ELO penalty.
 - Any kill resets the killer's consecutive-death streak, even when the victim has reached the daily cap.
-- The database stores event IDs uniquely and handles the event ledger write, streak updates, cap check, and rating changes in one transaction. Duplicate event IDs do not change ratings twice.
+- Event IDs are unique, so retrying the same event does not award ELO twice.
 
-The SQL RPC is authoritative. `src/lib/elo-rules.ts` provides matching policy constants and unit-test coverage.
+## Security note
+
+The token-protected database wrapper allows the public publishable key to be used without a service-role key. Treat the token as a bearer credential. A token embedded in a client-side Minecraft mod can be extracted, so this is suitable for a small private group but is not strong anti-cheat. For stronger integrity, use an authoritative server-side plugin that emits kill events.
