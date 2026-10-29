@@ -16,6 +16,7 @@ import { Route as EloRouteImport } from './routes/elo'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as RankingsRouteImport } from './routes/rankings'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TiesRouteImport } from './routes/ties'
 import { Route as ModeSlugRouteImport } from './routes/mode.$slug'
 import { Route as PlayersNameRouteImport } from './routes/players.$name'
@@ -55,6 +56,11 @@ const RankingsRoute = RankingsRouteImport.update({
   path: '/rankings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TiesRoute = TiesRouteImport.update({
   id: '/ties',
   path: '/ties',
@@ -79,6 +85,7 @@ export interface FileRoutesByFullPath {
   '/events': typeof EventsRoute
   '/how-it-works': typeof HowItWorksRoute
   '/rankings': typeof RankingsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/ties': typeof TiesRoute
   '/mode/$slug': typeof ModeSlugRoute
   '/players/$name': typeof PlayersNameRoute
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/events': typeof EventsRoute
   '/how-it-works': typeof HowItWorksRoute
   '/rankings': typeof RankingsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/ties': typeof TiesRoute
   '/mode/$slug': typeof ModeSlugRoute
   '/players/$name': typeof PlayersNameRoute
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/events': typeof EventsRoute
   '/how-it-works': typeof HowItWorksRoute
   '/rankings': typeof RankingsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/ties': typeof TiesRoute
   '/mode/$slug': typeof ModeSlugRoute
   '/players/$name': typeof PlayersNameRoute
@@ -118,6 +127,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/how-it-works'
     | '/rankings'
+    | '/reset-password'
     | '/ties'
     | '/mode/$slug'
     | '/players/$name'
@@ -130,6 +140,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/how-it-works'
     | '/rankings'
+    | '/reset-password'
     | '/ties'
     | '/mode/$slug'
     | '/players/$name'
@@ -142,6 +153,7 @@ export interface FileRouteTypes {
     | '/events'
     | '/how-it-works'
     | '/rankings'
+    | '/reset-password'
     | '/ties'
     | '/mode/$slug'
     | '/players/$name'
@@ -155,6 +167,7 @@ export interface RootRouteChildren {
   EventsRoute: typeof EventsRoute
   HowItWorksRoute: typeof HowItWorksRoute
   RankingsRoute: typeof RankingsRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   TiesRoute: typeof TiesRoute
   ModeSlugRoute: typeof ModeSlugRoute
   PlayersNameRoute: typeof PlayersNameRoute
@@ -211,6 +224,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RankingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ties': {
       id: '/ties'
       path: '/ties'
@@ -243,6 +263,7 @@ const rootRouteChildren: RootRouteChildren = {
   EventsRoute: EventsRoute,
   HowItWorksRoute: HowItWorksRoute,
   RankingsRoute: RankingsRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   TiesRoute: TiesRoute,
   ModeSlugRoute: ModeSlugRoute,
   PlayersNameRoute: PlayersNameRoute,
