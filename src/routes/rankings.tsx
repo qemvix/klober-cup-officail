@@ -10,9 +10,9 @@ export const Route = createFileRoute("/rankings")({
   head: () => ({
     meta: [
       { title: "Overall Rankings — Klober Tiers" },
-      { name: "description", content: "Klober Tiers players ranked by average ELO across all 10 gamemodes." },
+      { name: "description", content: "Klober Tiers players ranked by average ELO across all ${MODES.length} gamemodes." },
       { property: "og:title", content: "Overall Rankings — Klober Tiers" },
-      { property: "og:description", content: "Players ranked by average ELO across all 10 gamemodes." },
+      { property: "og:description", content: "Players ranked by average ELO across all ${MODES.length} gamemodes." },
     ],
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(playersQuery),
@@ -27,7 +27,7 @@ function Rankings() {
     <div>
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-6 py-12">
-        <PageTitle title="Overall Rankings" sub="Ranked by average ELO across all 10 gamemodes." />
+        <PageTitle title="Overall Rankings" sub="Ranked by average ELO across all ${MODES.length} gamemodes." />
         <div className="mt-8 space-y-3">
           {overall.map((p, i) => (
             <Link key={p.id} to="/players/$name" params={{ name: p.name }} className="flex flex-wrap items-center gap-5 rounded-lg border bg-card p-4 transition hover:border-primary">
