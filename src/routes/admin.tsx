@@ -7,6 +7,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { cupsQuery, eventsQuery, fmtDate, modFilesQuery, playersQuery, siteContentQuery, type Cup, type DiscordInfo, type KEvent, type Player } from "@/lib/klober";
 import { MODES, TIERS, avgElo, playerTier } from "@/lib/ranking";
 import { resolveSkin } from "@/lib/skin.functions";
+import { DEFAULT_MOD_GUIDE, MOD_GUIDE_KEY, normalizeModGuide } from "@/lib/mod-release";
+import { ModSetupGuide } from "@/components/ModSetupGuide";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -205,23 +207,25 @@ function Panel() {
 
 function ModTextAdmin() {
   const qc = useQueryClient();
-  const { data } = useQuery(siteContentQuery("mod_text"));
+  const { data } = useQuery(siteContentQuery(MOD_GUIDE_KEY));
   const [text, setText] = useState<string | null>(null);
   const [msg, setMsg] = useState("");
-  const value = text ?? (typeof data === "string" ? data : "");
+  const value = text ?? (normalizeModGuide(data) || DEFAULT_MOD_GUIDE);
   return (
     <section>
       <h2 className="font-display text-2xl font-bold text-primary">Mod setup text</h2>
-      <p className="mt-1 text-sm text-muted-foreground">This is the setup guide shown on the Mod page. Edit or replace it freely.</p>
+      <p className="mt-1 text-sm text-muted-foreground">The current release guide shown on the Mod page. Use ## headings, numbered steps, - bullets and backticks for file paths.</p>
       <textarea rows={14} className={`${field} mt-4 font-mono text-sm`} value={value} onChange={(e) => setText(e.target.value)} />
       <div className="mt-3 flex items-center gap-3">
         <button className="rounded-md bg-gold-gradient px-5 py-2 font-semibold text-primary-foreground" onClick={async () => {
-          const { error } = await supabase.from("site_content").upsert({ key: "mod_text", value: JSON.stringify(value), updated_at: new Date().toISOString() } as never);
+          const { error } = await supabase.from("site_content").upsert({ key: MOD_GUIDE_KEY, value: normalizeModGuide(value), updated_at: new Date().toISOString() } as never);
           setMsg(error ? error.message : "Saved!");
-          if (!error) { setText(null); qc.invalidateQueries({ queryKey: ["site_content", "mod_text"] }); }
+          if (!error) { setText(null); qc.invalidateQueries({ queryKey: ["site_content", MOD_GUIDE_KEY] }); }
         }}>Save text</button>
+        <button className="rounded-md border px-4 py-2 text-sm text-primary" onClick={() => setText(DEFAULT_MOD_GUIDE)}>Restore v0.4.0 guide</button>
         {msg && <span className="text-sm text-muted-foreground">{msg}</span>}
       </div>
+      <details className="mt-4 rounded-lg border bg-card p-4"><summary className="cursor-pointer font-semibold text-primary">Preview setup guide</summary><div className="mt-4"><ModSetupGuide text={value} /></div></details>
     </section>
   );
 }
@@ -256,7 +260,7 @@ function ModFilesAdmin() {
   return (
     <section>
       <h2 className="font-display text-2xl font-bold text-primary">Mod files</h2>
-      <p className="mt-1 text-sm text-muted-foreground">Upload the mod .jar files players can download. Upload a new file and delete the old one to replace it.</p>
+      <p className="mt-1 text-sm text-muted-foreground">The verified v0.4.0 Kit Fix builds are included on the Mod page. Upload a newer JAR for a Minecraft version to replace that version’s download; older uploads stay here for reference.</p>
       {err && <p className="mt-3 rounded-md border border-destructive p-3 text-destructive">{err}</p>}
       <div className="mt-4 grid gap-3 rounded-lg border bg-card p-4 md:grid-cols-[1fr_160px_1fr_auto]">
         <label><span className={label}>Label</span><input className={field} placeholder="Klober Tiers ELO Mod" value={label} onChange={(e) => setLabel(e.target.value)} /></label>

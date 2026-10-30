@@ -21,6 +21,7 @@ import { Route as RankingsRouteImport } from './routes/rankings'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TiesRouteImport } from './routes/ties'
 import { Route as ApiEloEventRouteImport } from './routes/api.elo-event'
+import { Route as ApiEloRegisterRouteImport } from './routes/api.elo-register'
 import { Route as ModeSlugRouteImport } from './routes/mode.$slug'
 import { Route as PlayersNameRouteImport } from './routes/players.$name'
 
@@ -84,6 +85,11 @@ const ApiEloEventRoute = ApiEloEventRouteImport.update({
   path: '/api/elo-event',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiEloRegisterRoute = ApiEloRegisterRouteImport.update({
+  id: '/api/elo-register',
+  path: '/api/elo-register',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ModeSlugRoute = ModeSlugRouteImport.update({
   id: '/mode/$slug',
   path: '/mode/$slug',
@@ -108,6 +114,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof ResetPasswordRoute
   '/ties': typeof TiesRoute
   '/api/elo-event': typeof ApiEloEventRoute
+  '/api/elo-register': typeof ApiEloRegisterRoute
   '/mode/$slug': typeof ModeSlugRoute
   '/players/$name': typeof PlayersNameRoute
 }
@@ -124,6 +131,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/ties': typeof TiesRoute
   '/api/elo-event': typeof ApiEloEventRoute
+  '/api/elo-register': typeof ApiEloRegisterRoute
   '/mode/$slug': typeof ModeSlugRoute
   '/players/$name': typeof PlayersNameRoute
 }
@@ -141,6 +149,7 @@ export interface FileRoutesById {
   '/reset-password': typeof ResetPasswordRoute
   '/ties': typeof TiesRoute
   '/api/elo-event': typeof ApiEloEventRoute
+  '/api/elo-register': typeof ApiEloRegisterRoute
   '/mode/$slug': typeof ModeSlugRoute
   '/players/$name': typeof PlayersNameRoute
 }
@@ -159,6 +168,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/ties'
     | '/api/elo-event'
+    | '/api/elo-register'
     | '/mode/$slug'
     | '/players/$name'
   fileRoutesByTo: FileRoutesByTo
@@ -175,6 +185,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/ties'
     | '/api/elo-event'
+    | '/api/elo-register'
     | '/mode/$slug'
     | '/players/$name'
   id:
@@ -191,6 +202,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/ties'
     | '/api/elo-event'
+    | '/api/elo-register'
     | '/mode/$slug'
     | '/players/$name'
   fileRoutesById: FileRoutesById
@@ -208,6 +220,7 @@ export interface RootRouteChildren {
   ResetPasswordRoute: typeof ResetPasswordRoute
   TiesRoute: typeof TiesRoute
   ApiEloEventRoute: typeof ApiEloEventRoute
+  ApiEloRegisterRoute: typeof ApiEloRegisterRoute
   ModeSlugRoute: typeof ModeSlugRoute
   PlayersNameRoute: typeof PlayersNameRoute
 }
@@ -298,6 +311,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiEloEventRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/elo-register': {
+      id: '/api/elo-register'
+      path: '/api/elo-register'
+      fullPath: '/api/elo-register'
+      preLoaderRoute: typeof ApiEloRegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/mode/$slug': {
       id: '/mode/$slug'
       path: '/mode/$slug'
@@ -328,6 +348,7 @@ const rootRouteChildren: RootRouteChildren = {
   ResetPasswordRoute: ResetPasswordRoute,
   TiesRoute: TiesRoute,
   ApiEloEventRoute: ApiEloEventRoute,
+  ApiEloRegisterRoute: ApiEloRegisterRoute,
   ModeSlugRoute: ModeSlugRoute,
   PlayersNameRoute: PlayersNameRoute,
 }
