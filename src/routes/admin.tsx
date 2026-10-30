@@ -123,6 +123,10 @@ function Panel() {
         {cups.map((c) => <Row key={c.id} title={c.name} sub={`${c.gamemode} · +${c.elo_reward} ELO · ${c.slots} slots · ${fmtDate(c.starts_at)}`} onEdit={() => setCup(c)} onDelete={() => del("cups", c.id, c.name)} />)}
       </Section>
 
+      <ModTextAdmin />
+      <ModFilesAdmin />
+      <DiscordAdmin />
+
       {pl && (
         <Modal onClose={() => setPl(null)}>
           <form className="w-full max-w-2xl space-y-4 rounded-lg border bg-card p-6" onSubmit={async (e) => {
