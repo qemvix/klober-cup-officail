@@ -16,7 +16,7 @@ export const Route = createFileRoute("/players/$name")({
       { title: `${params.name} — Klober Tiers` },
       { name: "description", content: `${params.name}'s Klober Tiers ELO and gamemode stats.` },
       { property: "og:title", content: `${params.name} — Klober Tiers` },
-      { property: "og:description", content: `${params.name}'s ELO across all 10 gamemodes.` },
+      { property: "og:description", content: `${params.name}'s ELO across all ${MODES.length} gamemodes.` },
     ],
   }),
   component: PlayerPage,
