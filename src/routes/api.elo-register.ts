@@ -26,7 +26,7 @@ export const Route = createFileRoute("/api/elo-register")({
           return json({ error: "Unauthorized." }, 401);
         }
 
-        const url = process.env["SUPABASE_URL"]?.replace(/\\/+$/, "");
+        const url = process.env["SUPABASE_URL"]?.replace(/\/+$/, "");
         const apiKey = process.env["SUPABASE_PUBLISHABLE_KEY"];
         if (!url || !apiKey) return json({ error: "Registration database is not configured." }, 503);
 
