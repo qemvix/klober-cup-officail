@@ -203,6 +203,101 @@ function Panel() {
   );
 }
 
+function ModTextAdmin() {
+  const qc = useQueryClient();
+  const { data } = useQuery(siteContentQuery("mod_text"));
+  const [text, setText] = useState<string | null>(null);
+  const [msg, setMsg] = useState("");
+  const value = text ?? (typeof data === "string" ? data : "");
+  return (
+    <section>
+      <h2 className="font-display text-2xl font-bold text-primary">Mod setup text</h2>
+      <p className="mt-1 text-sm text-muted-foreground">This is the setup guide shown on the Mod page. Edit or replace it freely.</p>
+      <textarea rows={14} className={`${field} mt-4 font-mono text-sm`} value={value} onChange={(e) => setText(e.target.value)} />
+      <div className="mt-3 flex items-center gap-3">
+        <button className="rounded-md bg-gold-gradient px-5 py-2 font-semibold text-primary-foreground" onClick={async () => {
+          const { error } = await supabase.from("site_content").upsert({ key: "mod_text", value: JSON.stringify(value), updated_at: new Date().toISOString() } as never);
+          setMsg(error ? error.message : "Saved!");
+          if (!error) { setText(null); qc.invalidateQueries({ queryKey: ["site_content", "mod_text"] }); }
+        }}>Save text</button>
+        {msg && <span className="text-sm text-muted-foreground">{msg}</span>}
+      </div>
+    </section>
+  );
+}
+
+function ModFilesAdmin() {
+  const qc = useQueryClient();
+  const files = useQuery(modFilesQuery).data ?? [];
+  const [label, setLabel] = useState("");
+  const [version, setVersion] = useState("");
+  const [file, setFile] = useState<File | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState("");
+
+  const upload = async () => {
+    if (!file) return setErr("Choose a file first.");
+    setBusy(true); setErr("");
+    const path = `${Date.now()}-${file.name.replace(/[^A-Za-z0-9._-]/g, "_")}`;
+    const up = await supabase.storage.from("mod-files").upload(path, file);
+    if (up.error) { setErr(up.error.message); setBusy(false); return; }
+    const ins = await supabase.from("mod_files").insert({ name: file.name, label, mc_version: version, path, size: file.size } as never);
+    if (ins.error) setErr(ins.error.message);
+    else { setLabel(""); setVersion(""); setFile(null); qc.invalidateQueries({ queryKey: ["mod_files"] }); }
+    setBusy(false);
+  };
+  const remove = async (id: string, path: string, name: string) => {
+    if (!confirm(`Delete "${name}"?`)) return;
+    await supabase.storage.from("mod-files").remove([path]);
+    const { error } = await supabase.from("mod_files").delete().eq("id", id);
+    if (error) setErr(error.message); else qc.invalidateQueries({ queryKey: ["mod_files"] });
+  };
+
+  return (
+    <section>
+      <h2 className="font-display text-2xl font-bold text-primary">Mod files</h2>
+      <p className="mt-1 text-sm text-muted-foreground">Upload the mod .jar files players can download. Upload a new file and delete the old one to replace it.</p>
+      {err && <p className="mt-3 rounded-md border border-destructive p-3 text-destructive">{err}</p>}
+      <div className="mt-4 grid gap-3 rounded-lg border bg-card p-4 md:grid-cols-[1fr_160px_1fr_auto]">
+        <label><span className={label}>Label</span><input className={field} placeholder="Klober Tiers ELO Mod" value={label} onChange={(e) => setLabel(e.target.value)} /></label>
+        <label><span className={label}>MC version</span><input className={field} placeholder="1.21.11" value={version} onChange={(e) => setVersion(e.target.value)} /></label>
+        <label><span className={label}>File (.jar)</span><input type="file" accept=".jar,.zip" className={field} onChange={(e) => setFile(e.target.files?.[0] ?? null)} /></label>
+        <div className="flex items-end"><button disabled={busy} onClick={upload} className="rounded-md bg-gold-gradient px-5 py-2 font-semibold text-primary-foreground disabled:opacity-50">{busy ? "Uploading…" : "Upload"}</button></div>
+      </div>
+      <div className="mt-4 space-y-2">
+        {files.map((f) => <Row key={f.id} title={f.label || f.name} sub={`${f.mc_version ? `MC ${f.mc_version} · ` : ""}${(f.size / 1024 / 1024).toFixed(2)} MB`} onEdit={() => {}} onDelete={() => remove(f.id, f.path, f.label || f.name)} />)}
+      </div>
+    </section>
+  );
+}
+
+function DiscordAdmin() {
+  const qc = useQueryClient();
+  const { data } = useQuery(siteContentQuery("discord"));
+  const [form, setForm] = useState<DiscordInfo | null>(null);
+  const [msg, setMsg] = useState("");
+  const value = form ?? ((data as DiscordInfo | null) ?? { title: "", description: "", invite: "" });
+  return (
+    <section>
+      <h2 className="font-display text-2xl font-bold text-primary">Discord</h2>
+      <p className="mt-1 text-sm text-muted-foreground">Shown on the Discord page: the server name, a short text about it, and the invite link.</p>
+      <div className="mt-4 max-w-lg space-y-3 rounded-lg border bg-card p-4">
+        <label className="block"><span className={label}>Server name</span><input className={field} value={value.title} onChange={(e) => setForm({ ...value, title: e.target.value })} /></label>
+        <label className="block"><span className={label}>About the server</span><textarea rows={3} className={field} value={value.description} onChange={(e) => setForm({ ...value, description: e.target.value })} /></label>
+        <label className="block"><span className={label}>Invite link</span><input type="url" className={field} placeholder="https://discord.gg/..." value={value.invite} onChange={(e) => setForm({ ...value, invite: e.target.value })} /></label>
+        <div className="flex items-center gap-3">
+          <button className="rounded-md bg-gold-gradient px-5 py-2 font-semibold text-primary-foreground" onClick={async () => {
+            const { error } = await supabase.from("site_content").upsert({ key: "discord", value: value as never, updated_at: new Date().toISOString() } as never);
+            setMsg(error ? error.message : "Saved!");
+            if (!error) { setForm(null); qc.invalidateQueries({ queryKey: ["site_content", "discord"] }); }
+          }}>Save</button>
+          {msg && <span className="text-sm text-muted-foreground">{msg}</span>}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Section({ title, onAdd, addLabel = "Add", children }: { title: string; onAdd: () => void; addLabel?: string; children: React.ReactNode }) {
   return (
     <section>
