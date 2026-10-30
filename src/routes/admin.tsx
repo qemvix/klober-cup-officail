@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Hash, Pencil, Plus, Server, Trash2, X } from "lucide-react";
 import { SiteHeader, PageTitle } from "@/components/SiteHeader";
 import { supabase } from "@/integrations/supabase/client";
-import { cupsQuery, eventsQuery, fmtDate, playersQuery, type Cup, type KEvent, type Player } from "@/lib/klober";
+import { cupsQuery, eventsQuery, fmtDate, modFilesQuery, playersQuery, siteContentQuery, type Cup, type DiscordInfo, type KEvent, type Player } from "@/lib/klober";
 import { MODES, TIERS, avgElo, playerTier } from "@/lib/ranking";
 import { resolveSkin } from "@/lib/skin.functions";
 
