@@ -9,6 +9,11 @@ export const MODES = [
   { slug: "axe", label: "Axe" },
   { slug: "mace", label: "Mace" },
   { slug: "nethpot", label: "Nethpot" },
+  { slug: "crystal", label: "Crystal" },
+  { slug: "pot", label: "Pot" },
+  { slug: "elytra-mace", label: "Elytra Mace" },
+  { slug: "spear-mace", label: "Spear Mace" },
+  { slug: "trident", label: "Trident" },
 ] as const;
 export type ModeSlug = (typeof MODES)[number]["slug"];
 
@@ -26,7 +31,10 @@ export function tierFor(elo: number): Tier {
 
 export type RankablePlayer = { name: string; elo: Record<string, number>; tier_override?: string | null };
 
-export const modeElo = (p: RankablePlayer, m: string) => p.elo?.[m] ?? DEFAULT_ELO;
+export const modeElo = (p: RankablePlayer, m: string) => {
+  const value = p.elo?.[m];
+  return typeof value === "number" && Number.isFinite(value) ? value : DEFAULT_ELO;
+};
 export const avgElo = (p: RankablePlayer) =>
   Math.round(MODES.reduce((s, m) => s + modeElo(p, m.slug), 0) / MODES.length);
 export const playerTier = (p: RankablePlayer): Tier =>
