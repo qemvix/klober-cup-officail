@@ -6,6 +6,33 @@ import type { Tables } from "@/integrations/supabase/types";
 export type Player = Omit<Tables<"players">, "elo"> & { elo: Record<string, number> };
 export type Cup = Tables<"cups">;
 export type KEvent = Tables<"events">;
+export type ModFile = Tables<"mod_files">;
+export type DiscordInfo = { title: string; description: string; invite: string };
+
+export const siteContentQuery = (key: string) =>
+  queryOptions({
+    queryKey: ["site_content", key],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("site_content").select("value").eq("key", key).maybeSingle();
+      if (error) throw error;
+      return data?.value ?? null;
+    },
+  });
+
+export const modFilesQuery = queryOptions({
+  queryKey: ["mod_files"],
+  queryFn: async () => {
+    const { data, error } = await supabase.from("mod_files").select("*").order("created_at", { ascending: false });
+    if (error) throw error;
+    return data ?? [];
+  },
+});
+
+export const modDownloadUrl = async (path: string, name: string) => {
+  const { data, error } = await supabase.storage.from("mod-files").createSignedUrl(path, 3600, { download: name });
+  if (error) throw error;
+  return data.signedUrl;
+};
 
 export const avatar = (p: { name: string; skin?: string | null }, s = 64) =>
   `https://mc-heads.net/avatar/${p.skin || p.name}/${s}`;
