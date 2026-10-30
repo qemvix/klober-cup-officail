@@ -47,7 +47,7 @@ Generate a unique UUID for each kill and reuse the same UUID when retrying that 
 ## Rules
 
 - Killing a player with a row in `public.players` awards **+10 ELO** to the killer in that gamemode.
-- Killing a player without a row in `public.players` awards **+1 ELO** to the killer in that gamemode.
+- Killing a player without a row in `public.players` awards **+5 ELO** to the killer in that gamemode.
 - The first **20 deaths per victim per UTC calendar day** may award ELO. The 21st and later deaths award 0 ELO. The count is global across server IDs and gamemodes.
 - Every 10th consecutive death subtracts **10 ELO from a listed victim** in the gamemode of that death. Unlisted victims' streaks are tracked but have no ELO penalty.
 - Any kill resets the killer's consecutive-death streak, even when the victim has reached the daily cap.
@@ -56,3 +56,8 @@ Generate a unique UUID for each kill and reuse the same UUID when retrying that 
 ## Security note
 
 The token-protected database wrapper allows the public publishable key to be used without a service-role key. Treat the token as a bearer credential. A token embedded in a client-side Minecraft mod can be extracted, so this is suitable for a small private group but is not strong anti-cheat. For stronger integrity, use an authoritative server-side plugin that emits kill events.
+
+
+## Unlisted reward update
+
+Apply `drizzle/migrations/0005_unlisted_kill_reward_five.sql` in Lovable Cloud to change the installed database award from +1 to +5 for unlisted victims. Deploying the website or replacing a mod JAR alone does not change this database rule. The guarded update preserves the installed function and existing player ELO.

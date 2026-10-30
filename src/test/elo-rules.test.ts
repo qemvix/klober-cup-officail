@@ -14,13 +14,13 @@ describe("tier-list kill rewards", () => {
     expect(result.killerEloAwarded).toBe(10);
   });
 
-  it("awards +1 for a victim who is not on the tier list", () => {
+  it("awards +5 for a victim who is not on the tier list", () => {
     const result = resolveKillRules({
       victimDeathsToday: 0,
       victimConsecutiveDeaths: 0,
       victimIsTierListed: false,
     });
-    expect(result.killerEloAwarded).toBe(1);
+    expect(result.killerEloAwarded).toBe(5);
   });
 
   it("awards +10 on the 20th death against a tier-listed victim", () => {

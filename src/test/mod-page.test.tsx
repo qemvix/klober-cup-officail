@@ -8,6 +8,7 @@ import { ModSetupGuide } from "@/components/ModSetupGuide";
 import {
   BUNDLED_MOD_FILES,
   DEFAULT_MOD_GUIDE,
+  MOD_DOWNLOAD_PATH,
   latestModFiles,
   normalizeModGuide,
 } from "@/lib/mod-release";
@@ -29,7 +30,7 @@ describe("Mod release downloads", () => {
     const files = latestModFiles([old]);
     expect(files).toHaveLength(4);
     expect(files.map((file) => file.mc_version)).toEqual(["26.3", "26.2", "26.1", "1.21.11"]);
-    expect(files.every((file) => file.path.startsWith("/mods/0.4.0/"))).toBe(true);
+    expect(files.every((file) => file.path.startsWith(MOD_DOWNLOAD_PATH + "/"))).toBe(true);
   });
 
   it("lets a newer admin JAR replace one version without offering a source ZIP", () => {
@@ -52,7 +53,10 @@ describe("Mod release downloads", () => {
   });
 
   it("ships the exact verified binaries with matching sizes and checksums", () => {
-    const checksums = readFileSync(resolve("public/mods/0.4.0/SHA256SUMS.txt"), "utf8");
+    const checksums = readFileSync(
+      resolve("public", MOD_DOWNLOAD_PATH.slice(1), "SHA256SUMS.txt"),
+      "utf8",
+    );
     for (const file of BUNDLED_MOD_FILES) {
       const bytes = readFileSync(resolve("public", file.path.slice(1)));
       expect(bytes.length).toBe(file.size);
@@ -73,7 +77,7 @@ describe("Mod release downloads", () => {
       expect(html).toContain(`href="${file.path}"`);
       expect(html).toContain(`download="${file.name}"`);
     }
-    expect(html).toContain("Kit Fix");
+    expect(html).toContain("Death &amp; Nametag Fix");
     expect(html).toContain("Learn Current Kit");
     expect(html).not.toContain("Preparing download");
     expect(html).not.toContain("Loading…");

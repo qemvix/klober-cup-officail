@@ -1,6 +1,6 @@
 export const DAILY_VICTIM_CAP = 20;
 export const TIER_LISTED_KILL_ELO_REWARD = 10;
-export const UNLISTED_KILL_ELO_REWARD = 1;
+export const UNLISTED_KILL_ELO_REWARD = 5;
 export const CONSECUTIVE_DEATH_INTERVAL = 10;
 export const CONSECUTIVE_DEATH_PENALTY = 10;
 

@@ -8,6 +8,7 @@ import { modDownloadUrl, modFilesQuery, siteContentQuery, type ModFile } from "@
 import {
   DEFAULT_MOD_GUIDE,
   MOD_GUIDE_KEY,
+  MOD_DOWNLOAD_PATH,
   latestModFiles,
   normalizeModGuide,
 } from "@/lib/mod-release";
@@ -19,7 +20,7 @@ export const Route = createFileRoute("/mod")({
       {
         name: "description",
         content:
-          "Download Klober Tiers ELO v0.4.0 Kit Fix for Minecraft 1.21.11, 26.1, 26.2 and 26.3, with installation instructions.",
+          "Download Klober Tiers ELO v0.4.0 Death & Nametag Fix for Minecraft 1.21.11, 26.1, 26.2 and 26.3, with installation instructions.",
       },
       { property: "og:title", content: "ELO Mod — Klober Tiers" },
       {
@@ -51,11 +52,11 @@ export function ModPage() {
             <FileDown aria-hidden="true" /> Downloads
           </h2>
           <div className="mt-4 rounded-lg border border-primary/30 bg-card p-5">
-            <p className="font-bold text-primary">v0.4.0 Kit Fix</p>
+            <p className="font-bold text-primary">v0.4.0 Death & Nametag Fix</p>
             <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-              Four builds compiled on 30 October 2026. Includes fuller kit detection and automatic
-              player registration when the server is configured. Choose the JAR for your exact
-              Minecraft version.
+              Four builds compiled on 30 October 2026. Recognizes plain death announcements and
+              fixes the ELO nametag position and lighting. Choose the JAR for your exact Minecraft
+              version.
             </p>
             <p className="mt-2 text-xs text-muted-foreground">
               Compilation and logic checks passed. Gameplay testing is still needed.
@@ -76,7 +77,7 @@ export function ModPage() {
             Install only one Klober Tiers JAR, with Fabric Loader 0.20.1 or newer and Fabric API for
             the same Minecraft version.{" "}
             <a
-              href="/mods/0.4.0/SHA256SUMS.txt"
+              href={MOD_DOWNLOAD_PATH + "/SHA256SUMS.txt"}
               className="text-primary underline underline-offset-4"
             >
               v0.4.0 checksums
