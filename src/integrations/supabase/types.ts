@@ -167,6 +167,36 @@ export type Database = {
         }
         Relationships: []
       }
+      mod_files: {
+        Row: {
+          created_at: string
+          id: string
+          label: string
+          mc_version: string
+          name: string
+          path: string
+          size: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          label?: string
+          mc_version?: string
+          name: string
+          path: string
+          size?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          label?: string
+          mc_version?: string
+          name?: string
+          path?: string
+          size?: number
+        }
+        Relationships: []
+      }
       players: {
         Row: {
           created_at: string
@@ -200,6 +230,24 @@ export type Database = {
           skin?: string | null
           tier_override?: string | null
           wins?: number
+        }
+        Relationships: []
+      }
+      site_content: {
+        Row: {
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: Json
         }
         Relationships: []
       }
