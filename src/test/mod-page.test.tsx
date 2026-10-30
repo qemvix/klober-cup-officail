@@ -77,7 +77,7 @@ describe("Mod release downloads", () => {
       expect(html).toContain(`href="${file.path}"`);
       expect(html).toContain(`download="${file.name}"`);
     }
-    expect(html).toContain("Death &amp; Nametag Fix");
+    expect(html).toContain("Compact Nametags");
     expect(html).toContain("Learn Current Kit");
     expect(html).not.toContain("Preparing download");
     expect(html).not.toContain("Loading…");
