@@ -15,6 +15,20 @@
       "when": 1793295272419,
       "tag": "0001_elo_abuse_protection",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793351593188,
+      "tag": "0002_create_site_content_and_mod_files",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793351613076,
+      "tag": "0003_mod_files_storage_policies",
+      "breakpoints": true
     }
   ]
 }

@@ -9,27 +9,24 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ApiEloEventRouteImport } from './routes/api.elo-event'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as CupsRouteImport } from './routes/cups'
+import { Route as DiscordRouteImport } from './routes/discord'
 import { Route as EloRouteImport } from './routes/elo'
 import { Route as EventsRouteImport } from './routes/events'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
+import { Route as ModRouteImport } from './routes/mod'
 import { Route as RankingsRouteImport } from './routes/rankings'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TiesRouteImport } from './routes/ties'
+import { Route as ApiEloEventRouteImport } from './routes/api.elo-event'
 import { Route as ModeSlugRouteImport } from './routes/mode.$slug'
 import { Route as PlayersNameRouteImport } from './routes/players.$name'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiEloEventRoute = ApiEloEventRouteImport.update({
-  id: '/api/elo-event',
-  path: '/api/elo-event',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -40,6 +37,11 @@ const AdminRoute = AdminRouteImport.update({
 const CupsRoute = CupsRouteImport.update({
   id: '/cups',
   path: '/cups',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiscordRoute = DiscordRouteImport.update({
+  id: '/discord',
+  path: '/discord',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EloRoute = EloRouteImport.update({
@@ -57,6 +59,11 @@ const HowItWorksRoute = HowItWorksRouteImport.update({
   path: '/how-it-works',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ModRoute = ModRouteImport.update({
+  id: '/mod',
+  path: '/mod',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RankingsRoute = RankingsRouteImport.update({
   id: '/rankings',
   path: '/rankings',
@@ -72,6 +79,11 @@ const TiesRoute = TiesRouteImport.update({
   path: '/ties',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiEloEventRoute = ApiEloEventRouteImport.update({
+  id: '/api/elo-event',
+  path: '/api/elo-event',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ModeSlugRoute = ModeSlugRouteImport.update({
   id: '/mode/$slug',
   path: '/mode/$slug',
@@ -84,117 +96,124 @@ const PlayersNameRoute = PlayersNameRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/api/elo-event': typeof ApiEloEventRoute
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/cups': typeof CupsRoute
+  '/discord': typeof DiscordRoute
   '/elo': typeof EloRoute
   '/events': typeof EventsRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/mod': typeof ModRoute
   '/rankings': typeof RankingsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/ties': typeof TiesRoute
+  '/api/elo-event': typeof ApiEloEventRoute
   '/mode/$slug': typeof ModeSlugRoute
   '/players/$name': typeof PlayersNameRoute
 }
 export interface FileRoutesByTo {
-  '/api/elo-event': typeof ApiEloEventRoute
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/cups': typeof CupsRoute
+  '/discord': typeof DiscordRoute
   '/elo': typeof EloRoute
   '/events': typeof EventsRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/mod': typeof ModRoute
   '/rankings': typeof RankingsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/ties': typeof TiesRoute
+  '/api/elo-event': typeof ApiEloEventRoute
   '/mode/$slug': typeof ModeSlugRoute
   '/players/$name': typeof PlayersNameRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/api/elo-event': typeof ApiEloEventRoute
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/cups': typeof CupsRoute
+  '/discord': typeof DiscordRoute
   '/elo': typeof EloRoute
   '/events': typeof EventsRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/mod': typeof ModRoute
   '/rankings': typeof RankingsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/ties': typeof TiesRoute
+  '/api/elo-event': typeof ApiEloEventRoute
   '/mode/$slug': typeof ModeSlugRoute
   '/players/$name': typeof PlayersNameRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/api/elo-event'
     | '/'
     | '/admin'
     | '/cups'
+    | '/discord'
     | '/elo'
     | '/events'
     | '/how-it-works'
+    | '/mod'
     | '/rankings'
     | '/reset-password'
     | '/ties'
+    | '/api/elo-event'
     | '/mode/$slug'
     | '/players/$name'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/api/elo-event'
     | '/'
     | '/admin'
     | '/cups'
+    | '/discord'
     | '/elo'
     | '/events'
     | '/how-it-works'
+    | '/mod'
     | '/rankings'
     | '/reset-password'
     | '/ties'
+    | '/api/elo-event'
     | '/mode/$slug'
     | '/players/$name'
   id:
     | '__root__'
-    | '/api/elo-event'
     | '/'
     | '/admin'
     | '/cups'
+    | '/discord'
     | '/elo'
     | '/events'
     | '/how-it-works'
+    | '/mod'
     | '/rankings'
     | '/reset-password'
     | '/ties'
+    | '/api/elo-event'
     | '/mode/$slug'
     | '/players/$name'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  ApiEloEventRoute: typeof ApiEloEventRoute
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   CupsRoute: typeof CupsRoute
+  DiscordRoute: typeof DiscordRoute
   EloRoute: typeof EloRoute
   EventsRoute: typeof EventsRoute
   HowItWorksRoute: typeof HowItWorksRoute
+  ModRoute: typeof ModRoute
   RankingsRoute: typeof RankingsRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   TiesRoute: typeof TiesRoute
+  ApiEloEventRoute: typeof ApiEloEventRoute
   ModeSlugRoute: typeof ModeSlugRoute
   PlayersNameRoute: typeof PlayersNameRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/api/elo-event': {
-      id: '/api/elo-event'
-      path: '/api/elo-event'
-      fullPath: '/api/elo-event'
-      preLoaderRoute: typeof ApiEloEventRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -214,6 +233,13 @@ declare module '@tanstack/react-router' {
       path: '/cups'
       fullPath: '/cups'
       preLoaderRoute: typeof CupsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/discord': {
+      id: '/discord'
+      path: '/discord'
+      fullPath: '/discord'
+      preLoaderRoute: typeof DiscordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/elo': {
@@ -237,6 +263,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HowItWorksRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mod': {
+      id: '/mod'
+      path: '/mod'
+      fullPath: '/mod'
+      preLoaderRoute: typeof ModRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/rankings': {
       id: '/rankings'
       path: '/rankings'
@@ -258,6 +291,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/elo-event': {
+      id: '/api/elo-event'
+      path: '/api/elo-event'
+      fullPath: '/api/elo-event'
+      preLoaderRoute: typeof ApiEloEventRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/mode/$slug': {
       id: '/mode/$slug'
       path: '/mode/$slug'
@@ -276,16 +316,18 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  ApiEloEventRoute: ApiEloEventRoute,
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   CupsRoute: CupsRoute,
+  DiscordRoute: DiscordRoute,
   EloRoute: EloRoute,
   EventsRoute: EventsRoute,
   HowItWorksRoute: HowItWorksRoute,
+  ModRoute: ModRoute,
   RankingsRoute: RankingsRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   TiesRoute: TiesRoute,
+  ApiEloEventRoute: ApiEloEventRoute,
   ModeSlugRoute: ModeSlugRoute,
   PlayersNameRoute: PlayersNameRoute,
 }
