@@ -44,93 +44,6 @@ export type Database = {
         }
         Relationships: []
       }
-      elo_match_events: {
-        Row: {
-          event_id: string
-          gamemode: string
-          killer_elo_awarded: number
-          killer_name: string
-          killer_player_id: string
-          occurred_at: string
-          processed_at: string
-          server_id: string
-          victim_consecutive_deaths: number
-          victim_daily_death_number: number
-          victim_elo_penalty: number
-          victim_is_tier_listed: boolean
-          victim_key: string
-          victim_name: string
-          victim_player_id: string | null
-        }
-        Insert: {
-          event_id: string
-          gamemode: string
-          killer_elo_awarded?: number
-          killer_name: string
-          killer_player_id: string
-          occurred_at: string
-          processed_at?: string
-          server_id: string
-          victim_consecutive_deaths?: number
-          victim_daily_death_number?: number
-          victim_elo_penalty?: number
-          victim_is_tier_listed: boolean
-          victim_key: string
-          victim_name: string
-          victim_player_id?: string | null
-        }
-        Update: {
-          event_id?: string
-          gamemode?: string
-          killer_elo_awarded?: number
-          killer_name?: string
-          killer_player_id?: string
-          occurred_at?: string
-          processed_at?: string
-          server_id?: string
-          victim_consecutive_deaths?: number
-          victim_daily_death_number?: number
-          victim_elo_penalty?: number
-          victim_is_tier_listed?: boolean
-          victim_key?: string
-          victim_name?: string
-          victim_player_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "elo_match_events_killer_player_id_fkey"
-            columns: ["killer_player_id"]
-            isOneToOne: false
-            referencedRelation: "players"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "elo_match_events_victim_player_id_fkey"
-            columns: ["victim_player_id"]
-            isOneToOne: false
-            referencedRelation: "players"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      elo_player_state: {
-        Row: {
-          consecutive_deaths: number
-          player_key: string
-          updated_at: string
-        }
-        Insert: {
-          consecutive_deaths?: number
-          player_key: string
-          updated_at?: string
-        }
-        Update: {
-          consecutive_deaths?: number
-          player_key?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
       events: {
         Row: {
           channel: string
@@ -236,23 +149,23 @@ export type Database = {
       record_elo_kill: {
         Args: {
           p_event_id: string
+          p_server_id: string
           p_gamemode: string
           p_killer_name: string
-          p_occurred_at: string
-          p_server_id: string
           p_victim_name: string
+          p_occurred_at: string
         }
         Returns: Json
       }
       record_elo_kill_with_token: {
         Args: {
-          p_event_id: string
-          p_gamemode: string
           p_ingest_token: string
-          p_killer_name: string
-          p_occurred_at: string
+          p_event_id: string
           p_server_id: string
+          p_gamemode: string
+          p_killer_name: string
           p_victim_name: string
+          p_occurred_at: string
         }
         Returns: Json
       }

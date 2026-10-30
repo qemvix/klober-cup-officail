@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ApiEloEventRouteImport } from './routes/api.elo-event'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as CupsRouteImport } from './routes/cups'
@@ -18,13 +19,17 @@ import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as RankingsRouteImport } from './routes/rankings'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TiesRouteImport } from './routes/ties'
-import { Route as ApiEloEventRouteImport } from './routes/api.elo-event'
 import { Route as ModeSlugRouteImport } from './routes/mode.$slug'
 import { Route as PlayersNameRouteImport } from './routes/players.$name'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiEloEventRoute = ApiEloEventRouteImport.update({
+  id: '/api/elo-event',
+  path: '/api/elo-event',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -67,11 +72,6 @@ const TiesRoute = TiesRouteImport.update({
   path: '/ties',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiEloEventRoute = ApiEloEventRouteImport.update({
-  id: '/api/elo-event',
-  path: '/api/elo-event',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ModeSlugRoute = ModeSlugRouteImport.update({
   id: '/mode/$slug',
   path: '/mode/$slug',
@@ -84,6 +84,7 @@ const PlayersNameRoute = PlayersNameRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
+  '/api/elo-event': typeof ApiEloEventRoute
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/cups': typeof CupsRoute
@@ -93,11 +94,11 @@ export interface FileRoutesByFullPath {
   '/rankings': typeof RankingsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/ties': typeof TiesRoute
-  '/api/elo-event': typeof ApiEloEventRoute
   '/mode/$slug': typeof ModeSlugRoute
   '/players/$name': typeof PlayersNameRoute
 }
 export interface FileRoutesByTo {
+  '/api/elo-event': typeof ApiEloEventRoute
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/cups': typeof CupsRoute
@@ -107,12 +108,12 @@ export interface FileRoutesByTo {
   '/rankings': typeof RankingsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/ties': typeof TiesRoute
-  '/api/elo-event': typeof ApiEloEventRoute
   '/mode/$slug': typeof ModeSlugRoute
   '/players/$name': typeof PlayersNameRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/api/elo-event': typeof ApiEloEventRoute
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/cups': typeof CupsRoute
@@ -122,13 +123,13 @@ export interface FileRoutesById {
   '/rankings': typeof RankingsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/ties': typeof TiesRoute
-  '/api/elo-event': typeof ApiEloEventRoute
   '/mode/$slug': typeof ModeSlugRoute
   '/players/$name': typeof PlayersNameRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/api/elo-event'
     | '/'
     | '/admin'
     | '/cups'
@@ -138,11 +139,11 @@ export interface FileRouteTypes {
     | '/rankings'
     | '/reset-password'
     | '/ties'
-    | '/api/elo-event'
     | '/mode/$slug'
     | '/players/$name'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/api/elo-event'
     | '/'
     | '/admin'
     | '/cups'
@@ -152,11 +153,11 @@ export interface FileRouteTypes {
     | '/rankings'
     | '/reset-password'
     | '/ties'
-    | '/api/elo-event'
     | '/mode/$slug'
     | '/players/$name'
   id:
     | '__root__'
+    | '/api/elo-event'
     | '/'
     | '/admin'
     | '/cups'
@@ -166,12 +167,12 @@ export interface FileRouteTypes {
     | '/rankings'
     | '/reset-password'
     | '/ties'
-    | '/api/elo-event'
     | '/mode/$slug'
     | '/players/$name'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  ApiEloEventRoute: typeof ApiEloEventRoute
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   CupsRoute: typeof CupsRoute
@@ -181,13 +182,19 @@ export interface RootRouteChildren {
   RankingsRoute: typeof RankingsRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   TiesRoute: typeof TiesRoute
-  ApiEloEventRoute: typeof ApiEloEventRoute
   ModeSlugRoute: typeof ModeSlugRoute
   PlayersNameRoute: typeof PlayersNameRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/api/elo-event': {
+      id: '/api/elo-event'
+      path: '/api/elo-event'
+      fullPath: '/api/elo-event'
+      preLoaderRoute: typeof ApiEloEventRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -251,13 +258,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TiesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/elo-event': {
-      id: '/api/elo-event'
-      path: '/api/elo-event'
-      fullPath: '/api/elo-event'
-      preLoaderRoute: typeof ApiEloEventRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/mode/$slug': {
       id: '/mode/$slug'
       path: '/mode/$slug'
@@ -276,6 +276,7 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  ApiEloEventRoute: ApiEloEventRoute,
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   CupsRoute: CupsRoute,
@@ -285,7 +286,6 @@ const rootRouteChildren: RootRouteChildren = {
   RankingsRoute: RankingsRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   TiesRoute: TiesRoute,
-  ApiEloEventRoute: ApiEloEventRoute,
   ModeSlugRoute: ModeSlugRoute,
   PlayersNameRoute: PlayersNameRoute,
 }
