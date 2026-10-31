@@ -9,6 +9,7 @@ import {
   BUNDLED_MOD_FILES,
   DEFAULT_MOD_GUIDE,
   MOD_DOWNLOAD_PATH,
+  RELEASED_AT,
   latestModFiles,
   normalizeModGuide,
 } from "@/lib/mod-release";
@@ -39,7 +40,7 @@ describe("Mod release downloads", () => {
       id: "new-upload",
       name: "klober-next.jar",
       path: "next.jar",
-      created_at: "2026-10-31T00:00:00Z",
+      created_at: new Date(Date.parse(RELEASED_AT) + 60000).toISOString(),
     };
     const source = {
       ...next,
@@ -77,8 +78,9 @@ describe("Mod release downloads", () => {
       expect(html).toContain(`href="${file.path}"`);
       expect(html).toContain(`download="${file.name}"`);
     }
-    expect(html).toContain("Compact Nametags");
-    expect(html).toContain("Learn Current Kit");
+    expect(html).toContain("Black &amp; Gold");
+    expect(html).toContain("Drag HUD in game");
+    expect(html).not.toContain("Kit to learn");
     expect(html).not.toContain("Preparing download");
     expect(html).not.toContain("Loading…");
     client.clear();

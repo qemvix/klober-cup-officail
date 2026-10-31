@@ -20,6 +20,7 @@ import { Route as ModRouteImport } from './routes/mod'
 import { Route as RankingsRouteImport } from './routes/rankings'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as TiesRouteImport } from './routes/ties'
+import { Route as ApiEloDeathRouteImport } from './routes/api.elo-death'
 import { Route as ApiEloEventRouteImport } from './routes/api.elo-event'
 import { Route as ApiEloRegisterRouteImport } from './routes/api.elo-register'
 import { Route as ModeSlugRouteImport } from './routes/mode.$slug'
@@ -80,6 +81,11 @@ const TiesRoute = TiesRouteImport.update({
   path: '/ties',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiEloDeathRoute = ApiEloDeathRouteImport.update({
+  id: '/api/elo-death',
+  path: '/api/elo-death',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiEloEventRoute = ApiEloEventRouteImport.update({
   id: '/api/elo-event',
   path: '/api/elo-event',
@@ -113,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/rankings': typeof RankingsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/ties': typeof TiesRoute
+  '/api/elo-death': typeof ApiEloDeathRoute
   '/api/elo-event': typeof ApiEloEventRoute
   '/api/elo-register': typeof ApiEloRegisterRoute
   '/mode/$slug': typeof ModeSlugRoute
@@ -130,6 +137,7 @@ export interface FileRoutesByTo {
   '/rankings': typeof RankingsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/ties': typeof TiesRoute
+  '/api/elo-death': typeof ApiEloDeathRoute
   '/api/elo-event': typeof ApiEloEventRoute
   '/api/elo-register': typeof ApiEloRegisterRoute
   '/mode/$slug': typeof ModeSlugRoute
@@ -148,6 +156,7 @@ export interface FileRoutesById {
   '/rankings': typeof RankingsRoute
   '/reset-password': typeof ResetPasswordRoute
   '/ties': typeof TiesRoute
+  '/api/elo-death': typeof ApiEloDeathRoute
   '/api/elo-event': typeof ApiEloEventRoute
   '/api/elo-register': typeof ApiEloRegisterRoute
   '/mode/$slug': typeof ModeSlugRoute
@@ -167,6 +176,7 @@ export interface FileRouteTypes {
     | '/rankings'
     | '/reset-password'
     | '/ties'
+    | '/api/elo-death'
     | '/api/elo-event'
     | '/api/elo-register'
     | '/mode/$slug'
@@ -184,6 +194,7 @@ export interface FileRouteTypes {
     | '/rankings'
     | '/reset-password'
     | '/ties'
+    | '/api/elo-death'
     | '/api/elo-event'
     | '/api/elo-register'
     | '/mode/$slug'
@@ -201,6 +212,7 @@ export interface FileRouteTypes {
     | '/rankings'
     | '/reset-password'
     | '/ties'
+    | '/api/elo-death'
     | '/api/elo-event'
     | '/api/elo-register'
     | '/mode/$slug'
@@ -219,6 +231,7 @@ export interface RootRouteChildren {
   RankingsRoute: typeof RankingsRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   TiesRoute: typeof TiesRoute
+  ApiEloDeathRoute: typeof ApiEloDeathRoute
   ApiEloEventRoute: typeof ApiEloEventRoute
   ApiEloRegisterRoute: typeof ApiEloRegisterRoute
   ModeSlugRoute: typeof ModeSlugRoute
@@ -304,6 +317,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TiesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/elo-death': {
+      id: '/api/elo-death'
+      path: '/api/elo-death'
+      fullPath: '/api/elo-death'
+      preLoaderRoute: typeof ApiEloDeathRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/elo-event': {
       id: '/api/elo-event'
       path: '/api/elo-event'
@@ -347,6 +367,7 @@ const rootRouteChildren: RootRouteChildren = {
   RankingsRoute: RankingsRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   TiesRoute: TiesRoute,
+  ApiEloDeathRoute: ApiEloDeathRoute,
   ApiEloEventRoute: ApiEloEventRoute,
   ApiEloRegisterRoute: ApiEloRegisterRoute,
   ModeSlugRoute: ModeSlugRoute,

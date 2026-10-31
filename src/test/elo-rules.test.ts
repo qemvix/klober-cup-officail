@@ -1,8 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  DAILY_VICTIM_CAP,
-  resolveKillRules,
-} from "@/lib/elo-rules";
+import { DAILY_VICTIM_CAP, resolveKillRules, resolveDeathRules } from "@/lib/elo-rules";
 
 describe("tier-list kill rewards", () => {
   it("awards +10 for a tier-listed victim", () => {
@@ -46,42 +43,29 @@ describe("tier-list kill rewards", () => {
   });
 });
 
-describe("consecutive death penalty", () => {
-  it("subtracts 10 from a listed victim at the 10th consecutive death", () => {
-    const result = resolveKillRules({
-      victimDeathsToday: 0,
-      victimConsecutiveDeaths: 9,
-      victimIsTierListed: true,
-    });
-    expect(result.victimConsecutiveDeaths).toBe(10);
-    expect(result.victimEloPenalty).toBe(10);
+describe("mode-specific self-death penalty", () => {
+  it("charges only the second death of the same mode/run", () => {
+    for (let deaths = 0; deaths < 12; deaths++)
+      expect(
+        resolveDeathRules({ deaths, previousMode: "sword", mode: "sword", sameRun: true })
+          .eloPenalty,
+      ).toBe(deaths === 1 ? 1 : 0);
   });
-
-  it("does not penalize the 11th consecutive death", () => {
-    const result = resolveKillRules({
-      victimDeathsToday: 0,
-      victimConsecutiveDeaths: 10,
-      victimIsTierListed: true,
-    });
-    expect(result.victimEloPenalty).toBe(0);
+  it("resets on a gamemode swap or a kill's new run", () => {
+    expect(
+      resolveDeathRules({ deaths: 1, previousMode: "sword", mode: "mace", sameRun: true }),
+    ).toEqual({ consecutiveDeaths: 1, eloPenalty: 0 });
+    expect(
+      resolveDeathRules({ deaths: 1, previousMode: "sword", mode: "sword", sameRun: false }),
+    ).toEqual({ consecutiveDeaths: 1, eloPenalty: 0 });
   });
-
-  it("applies another penalty at the 20th consecutive death", () => {
-    const result = resolveKillRules({
-      victimDeathsToday: 0,
-      victimConsecutiveDeaths: 19,
-      victimIsTierListed: true,
-    });
-    expect(result.victimEloPenalty).toBe(10);
-  });
-
-  it("tracks an unlisted victim's streak without applying an ELO penalty", () => {
-    const result = resolveKillRules({
-      victimDeathsToday: 0,
-      victimConsecutiveDeaths: 9,
-      victimIsTierListed: false,
-    });
-    expect(result.victimConsecutiveDeaths).toBe(10);
-    expect(result.victimEloPenalty).toBe(0);
+  it("does not charge the same victim through a kill report", () => {
+    expect(
+      resolveKillRules({
+        victimDeathsToday: 0,
+        victimConsecutiveDeaths: 9,
+        victimIsTierListed: true,
+      }).victimEloPenalty,
+    ).toBe(0);
   });
 });
