@@ -78,7 +78,7 @@ describe("Mod release downloads", () => {
       expect(html).toContain(`href="${file.path}"`);
       expect(html).toContain(`download="${file.name}"`);
     }
-    expect(html).toContain("SF Pro &amp; Glass");
+    expect(html).toContain("Sidebar &amp; Font Fix");
     expect(html).toContain("Drag HUD in game");
     expect(html).not.toContain("Kit to learn");
     expect(html).not.toContain("Preparing download");
