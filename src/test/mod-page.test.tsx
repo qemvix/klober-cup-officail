@@ -78,8 +78,16 @@ describe("Mod release downloads", () => {
       expect(html).toContain(`href="${file.path}"`);
       expect(html).toContain(`download="${file.name}"`);
     }
-    expect(html).toContain("Sidebar &amp; Font Fix");
+    expect(html).toContain("Themes &amp; Server Transfers");
     expect(html).toContain("Drag HUD in game");
+    expect(html).toContain("Hide ELO labels");
+    expect(html).toContain("Menu style");
+    expect(html).toContain("pvphq.com");
+    expect(html).toContain("/mods/0.5.3/CHANGELOG-0.5.3.md");
+    expect(html).toContain("Hide ELO labels");
+    expect(html).toContain("Menu style");
+    expect(html).toContain("pvphq.com");
+    expect(html).toContain("/mods/0.5.3/CHANGELOG-0.5.3.md");
     expect(html).not.toContain("Kit to learn");
     expect(html).not.toContain("Preparing download");
     expect(html).not.toContain("Loading…");

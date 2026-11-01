@@ -20,7 +20,7 @@ export const Route = createFileRoute("/mod")({
       {
         name: "description",
         content:
-          "Download Klober Tiers ELO v0.5.2 Sidebar & Font Fix for Minecraft 1.21.11, 26.1, 26.2 and 26.3, with installation instructions.",
+          "Download Klober Tiers ELO v0.5.3 Themes & Server Transfers for Minecraft 1.21.11, 26.1, 26.2 and 26.3, with installation instructions.",
       },
       { property: "og:title", content: "ELO Mod — Klober Tiers" },
       {
@@ -52,11 +52,11 @@ export function ModPage() {
             <FileDown aria-hidden="true" /> Downloads
           </h2>
           <div className="mt-4 rounded-lg border border-primary/30 bg-card p-5">
-            <p className="font-bold text-primary">v0.5.2 Sidebar & Font Fix</p>
+            <p className="font-bold text-primary">v0.5.3 Themes & Server Transfers</p>
             <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-              Corrected SF Pro spacing and smoothing, with sidebar navigation, grouped settings
-              rows, gold switches and right-aligned sliders. Includes the ELO, glass HUD, colour
-              picker and nametag features. Choose the JAR for your exact Minecraft version.
+              Minecraft font by default, optional SF Pro, five themes, menu opacity and colour
+              controls, plus one-click ELO label hiding and safer FlowPvP/PvPHQ transfers. Choose
+              the JAR for your exact Minecraft version.
             </p>
             <p className="mt-2 text-xs text-muted-foreground">
               Compilation and logic checks passed. Gameplay testing is still needed.
@@ -69,7 +69,7 @@ export function ModPage() {
           </div>
           {isError && (
             <p className="mt-3 text-sm text-muted-foreground">
-              Additional uploads could not be checked. The verified v0.5.2 downloads above are still
+              Additional uploads could not be checked. The verified v0.5.3 downloads above are still
               available.
             </p>
           )}
@@ -80,7 +80,14 @@ export function ModPage() {
               href={MOD_DOWNLOAD_PATH + "/SHA256SUMS.txt"}
               className="text-primary underline underline-offset-4"
             >
-              v0.5.2 checksums
+              v0.5.3 checksums
+            </a>
+            {" · "}
+            <a
+              href={MOD_DOWNLOAD_PATH + "/CHANGELOG-0.5.3.md"}
+              className="text-primary underline underline-offset-4"
+            >
+              Detailed changelog
             </a>
           </p>
         </section>
